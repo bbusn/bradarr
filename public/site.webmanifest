@@ -1,0 +1,44 @@
+{
+  "name": "bradarr",
+  "short_name": "bradarr",
+  "description": "An app to manage movie requests from jellyseerr. Requires jellyseerr and download plugins",
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "categories": ["utilities", "entertainment", "productivity"],
+  "lang": "fr",
+  "dir": "ltr",
+  "screenshots": [
+    {
+      "src": "/images/screenshots/screen-1.png",
+      "sizes": "370x812",
+      "type": "image/png",
+      "label": "Home screen",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/images/screenshots/screen-2.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "Logs",
+      "form_factor": "wide"
+    }
+  ]
+}

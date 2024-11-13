@@ -1,0 +1,26 @@
+{
+  "name": "bradarr",
+  "version": "0.0.1",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon --env-file=.env server.js",
+    "start": "node --env-file=.env server.js",
+    "watch": "tailwindcss -i src/input.css -o public/css/styles.css --watch",
+    "build": "tailwindcss -i src/input.css -o public/css/styles.css --minify"
+  },
+  "author": "bbusn",
+  "license": "GPL-3.0",
+  "description": "Jellyseerr movie requests manager",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
+    "puppeteer": "^23.6.0",
+    "sequelize": "^6.37.3",
+    "tailwindcss": "^3.4.14",
+    "xss": "^1.0.15"
+  }
+}
