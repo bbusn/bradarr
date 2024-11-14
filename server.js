@@ -8,7 +8,8 @@ const sequelize = require('./database/database');
 const { deleteLogs } = require('./src/controllers/log');
 
 // const authRoutes = require('./app/routes/authRoutes');
-// const appRoutes = require('./app/routes/appRoutes');
+const homeRoutes = require('./src/routes/home');
+const settingsRoutes = require('./src/routes/settings');
 // const movieRoutes = require('./app/routes/movieRoutes');
 
 // const { authMiddleware } = require('./app/middlewares/authMiddleware');
@@ -33,7 +34,6 @@ sequelize.sync({ force: false })
     })
     .catch(err => console.log('Error syncing : ' + err));
 
-// Middleware
 app.set('view engine', 'ejs');
 app.set('views', './src/views');
 app.use(express.static('public'));
@@ -50,7 +50,8 @@ app.use(cookieParser());
 // app.use(loggingRequestMiddleware);
 
 // Routes
-// app.use('/', authRoutes);
+app.use('/', homeRoutes);
+app.use('/settings', settingsRoutes);
 // app.use('/', appRoutes);
 // app.use('/', movieRoutes);
 
