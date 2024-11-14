@@ -1,5 +1,4 @@
 const Log = require('../models/Log');
-const axios = require('axios');
 const sequelize = require('../../database/database');
   
 exports.createLog = async (status, message, source) => {

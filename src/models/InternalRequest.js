@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../config/database');
+const sequelize = require('../../database/database');
 
 const InternalRequest = sequelize.define('InternalRequest', {
   id: {

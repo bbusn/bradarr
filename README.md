@@ -1,3 +1,4 @@
 # Bradarr
 Jellyseerr movie requests manager
--> Requires Jellyseerr, Jellyfin, one or more download plugins, vpn (unecessary)
+-> Requires Jellyseerr, one or more download plugins, 
+-> Can be used with VPN (unecessary)
