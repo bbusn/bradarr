@@ -3,7 +3,7 @@ exports.homeView = async (req, res) => {
     // const { username } = user;
     const username = 'admin';
     
-    res.render('home', { user: { 
+    return res.render('home', { user: { 
         username,
     }});
 };

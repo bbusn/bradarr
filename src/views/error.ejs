@@ -1,0 +1,18 @@
+<%- include('layout/base'); -%>
+
+    <title>bradarr - Error</title>
+</head>
+<body class="flex justify-start py-24 items-center flex-col h-screen w-screen gap-4 bg-secondary">
+<% if (navigation) { %>
+    <%- include('layout/header'); -%>
+<% } %>
+    <main class="flex justify-center items-center flex-col gap-10 w-full pb-24 h-full">
+        <div class="flex justify-center items-center flex-col gap-2">
+            <h1 class="text-4xl text-gray-700 font-bold">Error <%= error.code %></h1>
+            <h2 class="text-lg text-gray-400"><%= error.message %></h2>
+        </div>
+    <% if (!navigation) { %>
+        <button onclick="window.history.back()" class="primary-action">Go back</button>
+    <% } %>
+    </main>
+</body>

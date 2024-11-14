@@ -2,10 +2,44 @@
 
     <title>bradarr - Setup</title>
 </head>
-<body class="flex justify-start py-24 items-center flex-col h-screen w-screen gap-4">
-    <main class="flex justify-center items-center flex-col gap-6">
-        <h1 class="text-base uppercase text-gray-700 font-bold">Welcome to bradarr</h1>
-        <h2 class="text-sm text-gray-400">Let's get started by setting up the app.</h2>
+<body class="flex justify-start py-20 items-center flex-col min-h-screen w-screen h-full overflow-x-hidden">
+    <main class="flex justify-start items-center flex-col gap-20 w-full h-full">
+        <div class="flex flex-col justify-center items-center gap-3">
+            <img src="/images/logo.png" alt="bradarr" class="select-none w-10 h-10" />
+            <h1 class="text-4xl text-gray-700 font-bold">Welcome to bradarr</h1>
+            <h2 class="text-lg text-gray-400">Let's get started by setting up the app.</h2>
+        </div>
+        <form class="w-full max-h-[900px] max-w-[800px] h-full flex flex-col justify-center items-center gap-1" action="/settings/setup" method="post">
+            <div class="flex justify-center items-start w-full h-full gap-4 flex-wrap">
+                <div class="flex flex-col justify-start items-center gap-1 h-full w-[300px]">
+                    <h3 class="text-base text-black font-semibold">Create an admin</h3>
+                    <div class="mb-5 w-full flex justify-start flex-col items-start">
+                        <label for="username" class="block mb-2 text-sm text-gray-500">Username</label>
+                        <input type="text" id="username" name="username" maxlength="15" minlength="5" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary block w-full p-2.5" placeholder="admin" required />
+                    </div>
+                    <div class="mb-5 w-full">
+                        <label for="password" class="block mb-2 text-sm text-gray-500">Password</label>
+                        <input type="password" id="password" name="password" maxlength="25" minlength="8" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary block w-full p-2.5" placeholder="y0urP@ssw0rd" required />
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center items-center gap-1 h-full w-[300px]">
+                    <h3 class="text-base text-black font-semibold">Connect Jellyseerr</h3>
+                    <div class="mb-5 w-full flex justify-start flex-col items-start">
+                        <label for="jellyseerrApiKey" class="block mb-2 text-sm text-gray-500">Api Key</label>
+                        <input type="text" id="jellyseerrApiKey" name="jellyseerrApiKey" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary block w-full p-2.5" placeholder="Jellyseerr Api Key" required />
+                    </div>
+                    <div class="mb-5 w-full flex justify-start flex-col items-start">
+                        <label for="jellyseerrUsername" class="block mb-2 text-sm text-gray-500">Username</label>
+                        <input type="text" id="jellyseerrUsername" name="jellyseerrUsername" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary block w-full p-2.5" placeholder="jellyseerr@email.com" required />
+                    </div>
+                    <div class="mb-5 w-full">
+                        <label for="jellyseerrPassword" class="block mb-2 text-sm text-gray-500">Your password</label>
+                        <input type="password" id="jellyseerrPassword" name="jellyseerrPassword" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary block w-full p-2.5" placeholder="y0urP@ssw0rd" required />
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="primary-action">Submit</button>
+        </form>
     </main>
 </body>
 </html>

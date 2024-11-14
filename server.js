@@ -7,13 +7,13 @@ const sequelize = require('./database/database');
 // const { deleteRequests, deleteExternalRequests } = require('./app/controllers/requestController');
 const { deleteLogs } = require('./src/controllers/log');
 
-// const authRoutes = require('./app/routes/authRoutes');
+const authRoutes = require('./src/routes/auth');
 const homeRoutes = require('./src/routes/home');
 const settingsRoutes = require('./src/routes/settings');
 // const movieRoutes = require('./app/routes/movieRoutes');
 
-const { setupMiddleware } = require('./src/middlewares/settings');
-// const { authMiddleware } = require('./app/middlewares/authMiddleware');
+const { setupMiddleware } = require('./src/middlewares/setup');
+const { authMiddleware } = require('./src/middlewares/auth');
 // const { loggingRequestMiddleware } = require('./app/middlewares/loggingRequestMiddleware');
 
 const app = express();
@@ -44,7 +44,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(setupMiddleware);
-// app.use(authMiddleware);
+app.use(authMiddleware);
 
 // const { createAccount } = require('./app/controllers/createController');
 
@@ -53,10 +53,19 @@ app.use(setupMiddleware);
 // Routes
 app.use('/', homeRoutes);
 app.use('/settings', settingsRoutes);
-// app.use('/', appRoutes);
+app.use('/auth', authRoutes);
 // app.use('/', movieRoutes);
 
 // app.get('/progress/:id', getProgress);
+app.get('*', function(req, res){
+    res.status(404).render('error', { 
+        error: {
+            code: '404',
+            message: 'The page you are looking for does not exist.',
+        }, 
+        navigation: true
+    });
+});
 
 // Server
 const HOST = process.env.HOST || 'http://localhost';
