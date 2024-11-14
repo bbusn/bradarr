@@ -12,6 +12,7 @@ const homeRoutes = require('./src/routes/home');
 const settingsRoutes = require('./src/routes/settings');
 // const movieRoutes = require('./app/routes/movieRoutes');
 
+const { setupMiddleware } = require('./src/middlewares/settings');
 // const { authMiddleware } = require('./app/middlewares/authMiddleware');
 // const { loggingRequestMiddleware } = require('./app/middlewares/loggingRequestMiddleware');
 
@@ -36,13 +37,13 @@ sequelize.sync({ force: false })
 
 app.set('view engine', 'ejs');
 app.set('views', './src/views');
-app.use(express.static('public'));
-
 app.set('trust proxy', true);
 
+app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use(setupMiddleware);
 // app.use(authMiddleware);
 
 // const { createAccount } = require('./app/controllers/createController');

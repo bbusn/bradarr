@@ -10,3 +10,9 @@ exports.settingsView = async (req, res) => {
         res.render('error', { error: 'Error getting settings' });
     }
 }
+
+exports.setupView = async (req, res) => {
+    res.render('setup');
+}
+
+exports.isSetup = false;
