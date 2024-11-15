@@ -6,6 +6,7 @@
 <% if (navigation) { %>
     <%- include('layout/header'); -%>
 <% } %>
+    <%- include('layout/alerts'); -%>
     <main class="flex justify-center items-center flex-col gap-10 w-full pb-24 h-full">
         <div class="flex justify-center items-center flex-col gap-2">
             <h1 class="text-4xl text-gray-700 font-bold">Error <%= error.code %></h1>
