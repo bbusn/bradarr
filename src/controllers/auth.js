@@ -6,8 +6,8 @@ const Attempt = require('../models/Attempt');
 const User = require('../models/User');
 const Blacklist = require('../models/Blacklist');
 
-exports.loginView = (req, res) => {
-    res.render('login');
+exports.loginView = (req, res) => {    
+    return res.render('login');
 };
 
 exports.login = async (req, res) => {
@@ -29,42 +29,36 @@ exports.login = async (req, res) => {
         const attemptsCount = await Attempt.count({ where: { ip } });
           
         if (attemptsCount >= maxAttempts) {
-            return res.status(400).render('error', {  
-                error: {
-                    code: '429',
-                    message: 'Too many attempts',
-                },
-                navigation: false
-            }); 
+            req.session.alerts = {
+                error: ['Too many login attempts, please try again later']
+            };
+            return res.redirect('/auth/login');
         }
 
         if (!username || !password) {
             await Attempt.create({ ip });
-            return res.status(400).render('error', {  
-                error: {
-                    code: '400',
-                    message: 'Missing username or password',
-                }, 
-                navigation: false
-            }); 
+            req.session.alerts = {
+                error: ['Missing username or password']
+            };
+            return res.redirect('/auth/login');
         }
 
         const user = await User.findOne({ where: { username } });
         if (!user) {
             await Attempt.create({ ip });
-            return res.status(400).json({ error: 'Invalid username or password ' });
+            req.session.alerts = {
+                error: ['Invalid username or password']
+            };
+            return res.redirect('/auth/login');
         }
 
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
             await Attempt.create({ ip });
-            return res.status(400).render('error', {  
-                error: {
-                    code: '400',
-                    message: 'Invalid username or password',        
-                },
-                navigation: false
-            });
+            req.session.alerts = {
+                error: ['Invalid username or password']
+            };
+            return res.redirect('/auth/login');
         }
 
         const userData = {
@@ -74,18 +68,18 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ user: userData }, process.env.JWT_SECRET, { expiresIn: '4h' });
         res.cookie('token', token, { httpOnly: true });
-        
+
+        req.session.alerts = {
+            success: ['Logged in, welcome ' + user.username]
+        };
+
         return res.redirect('/');
     } catch (err) {
         console.log(err);
-        logController.createLog('Error', 'Error logging in : ' + err, 'login');
-        return res.status(500).render('error', {  
-            error: {
-                code: '500',
-                message: 'Internal server error', 
-            },
-            navigation: false
-        });
+        req.session.alerts = {
+            error: ['Internal server error']
+        };
+        return res.redirect('/auth/login');
     }
 };
 
@@ -93,5 +87,8 @@ exports.logout = (req, res) => {
     let token = req.cookies.token;
     Blacklist.create({ token });
     res.clearCookie('token');
+    req.session.alerts = {
+        success: ['Logged out, see you soon!']
+    };
     return res.redirect('/auth/login');
 };

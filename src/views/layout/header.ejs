@@ -1,7 +1,7 @@
 <header class="fixed top-[5%] left-[50%] -translate-x-1/2 flex justify-between items-center w-[90vw]">
-    <a href="/" id="nav-logo" class="flex justify-start items-center gap-2">
-        <img src="/images/logo.png" alt="bradarr" class="z-10 select-none w-6 h-6 transition-all duration-500" />
-        <span class="select-none text-black text-lg font-bold -translate-x-[100%] transition-all duration-500 opacity-0">bradarr</span>
+    <a href="/" id="nav-logo" class="flex justify-start items-center gap-2 text-black">
+        <img src="/images/logo.png" alt="bradarr" class="z-10 select-none w-6 h-6 transition-all duration-300" />
+        <span class="select-none text-lg font-bold ">bradarr</span>
     </a>
     <div class="relative">
         <button id="nav" class="flex flex-col justify-center items-center gap-1.5 select-none duration-200 transition-all active:duration-200 active:transition-all active:scale-90 py-3 px-5 hover:bg-primary/10 rounded-md">
@@ -19,20 +19,6 @@
         </div>
     </div>
 </header>
-
 <script>
-    const nav = document.getElementById('nav');
-    const navLinks = document.getElementById('nav-links');
-
-    nav.addEventListener('click', ()=> {
-        navLinks.classList.toggle('hidden');
-    });
-
-
-    window.addEventListener('click', function(event) {
-        const button = document.querySelector('header button');
-        if (event.target !== button && event.target !== navLinks) {
-            navLinks.classList.add('hidden');
-        }
-    });
+const nav=document.getElementById("nav"),navLinks=document.getElementById("nav-links"),navLogo=document.getElementById("nav-logo"),navLogoImg=navLogo.querySelector("img"),button=document.querySelector("header button");nav.addEventListener("click",(()=>{navLinks.classList.toggle("hidden")})),window.addEventListener("click",(e=>{nav.contains(e.target)||navLinks.contains(e.target)||navLinks.classList.add("hidden")})),navLogo.addEventListener("mouseenter",(()=>{navLogoImg.classList.add("rotate-180"),navLogo.addEventListener("mouseleave",(()=>{navLogoImg.classList.remove("rotate-180")}),{once:!0})}));
 </script>

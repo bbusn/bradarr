@@ -5,9 +5,6 @@ exports.authMiddleware = (req, res, next) => {
 
     if (!token) {
         if (req.url === '/auth/login' || req.url === '/settings/setup') {
-            if (req.session) {
-                req.session.destroy();
-            }
             res.clearCookie('token');
             return next();
         } else {

@@ -16,18 +16,18 @@ exports.isSetup = async () => {
 exports.settingsView = async (req, res) => {
     try {
         const settings = await Setting.findAll();
-        res.render('settings', { settings });
+        return res.render('settings', { settings });
     } catch (err) {
         logController.createLog('Error', 'Error getting settings : ' + err, 'settingsView');
-        return res.status(500).render('error', {  error: {
-            code: '500',
-            message: 'Error getting settings',
-        }}); 
+        res.locals.alerts = {
+            error: ['Error getting settings']
+        };
+        return res.render('settings');
     }
 }
 
 exports.setupView = async (req, res) => {
-    res.render('setup');
+    return res.render('setup');
 }
 
 exports.setup = async (req, res) => {
@@ -35,10 +35,10 @@ exports.setup = async (req, res) => {
     const { username, password, jellyseerrUsername, jellyseerrPassword, jellyseerrApiKey } = req.body;
 
     if (!username || !password || !jellyseerrUsername || !jellyseerrPassword|| !jellyseerrApiKey) {
-        return res.status(400).render('error', {  error: {
-            code: '400',
-            message: 'Missing fields',
-        }}); 
+        req.session.alerts = {
+            error: ['Missing fields']
+        };
+        return res.redirect('/settings/setup');
     }
 
     try {
@@ -56,15 +56,15 @@ exports.setup = async (req, res) => {
         ]
 
         await Setting.bulkCreate(settings);
+        req.session.alerts = {
+            success: ['Setup complete now you can login']
+        };
         return res.redirect('/');
     } catch (err) {
         console.log(err);
-        return res.status(500).render('error', {  
-            error: {
-                code: '500',
-                message: 'Internal server error : ' + err,
-            },
-            navigation: false
-        }); 
+        req.session.alerts = {
+            error: ['Internal server error']
+        };
+        return res.redirect('/settings/setup');
     }
 }

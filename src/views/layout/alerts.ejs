@@ -1,0 +1,12 @@
+<% if (alerts) { %>
+    <div class="fixed top-5 left-0 w-full flex flex-col items-center justify-center space-y-1">
+        <% for (const [type, messages] of Object.entries(alerts)) { %>
+            <% messages.forEach(message => { %>
+                <div class="max-w-[90vw] sm:w-[700px] flex justify-center gap-3 items-center animate-alert transition-all duration-1000 border-none ease-in-out bg-[rgba(0, 0, 0, 0.1)] px-4 py-1 rounded-xl" role="alert">
+                    <div class="<%= type === 'success' ? 'bg-green-400' : type === 'error' ? 'bg-red-400' : type === 'info' ? 'bg-blue-400' : type === 'warning' ? 'bg-orange-400' : 'bg-gray-400' %> rounded-lg w-[9px] h-[9px] flex justify-center items-center"></div>
+                    <span class="align-middle text-black text-center"><%= message %></span>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+<% } %>

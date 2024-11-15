@@ -1,5 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
+
 const sequelize = require('./database/database');
 
 // const { scanM3u8Folder, getProgress } = require('./app/controllers/downloadController');
@@ -17,6 +19,7 @@ const { authMiddleware } = require('./src/middlewares/auth');
 // const { loggingRequestMiddleware } = require('./app/middlewares/loggingRequestMiddleware');
 
 const app = express();
+
 
 sequelize.sync({ force: false })
     .then(() => {
@@ -42,6 +45,20 @@ app.set('trust proxy', true);
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    cookie: { maxAge: 86400000 },
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use((req, res, next) => {
+    if (req.session.alerts) res.locals.alerts = req.session.alerts;
+    if (!res.locals.alerts) res.locals.alerts = {};
+    delete req.session.alerts;
+    next();
+});
 
 app.use(setupMiddleware);
 app.use(authMiddleware);

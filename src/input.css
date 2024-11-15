@@ -9,28 +9,6 @@
   .primary-action {
     @apply text-center px-14 py-2 rounded-lg font-bold bg-primary/20 text-primary/90 hover:bg-primary/10 hover:duration-200 hover:transition-all duration-200 transition-all active:scale-90 active:duration-200 active:transition-all focus:outline-primary;
   }
-  #nav-logo {
-    @apply transition-all duration-500;
-  }
-  #nav-logo:active {
-    @apply scale-90 transition-all duration-500;
-  }
-  #nav-logo::before {
-    @apply absolute top-0 -left-[70px] w-[80px] h-full bg-white pointer-events-none select-none;
-    content: '';
-    z-index: 1;
-  }
-  #nav-logo::after {
-    @apply absolute top-0 left-[10px] w-[25px] h-full bg-gradient-to-r from-white to-transparent pointer-events-none select-none;
-    content: '';
-    z-index: 1;
-  }
-  #nav-logo:hover img {
-    @apply rotate-180 transition-all duration-500;
-  }
-  #nav-logo:hover span {
-    @apply translate-x-0 transition-all duration-500 opacity-100;
-  }
   .nav-link {
     @apply text-gray-500 w-full rounded-md font-normal text-center px-4 text-sm transition-all duration-200;
   }
