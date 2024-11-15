@@ -1,0 +1,32 @@
+<%- include('layout/base'); -%>
+
+    <title>bradarr - Settings</title>
+</head>
+<body class="flex justify-start py-32 items-center flex-col h-screen w-screen gap-4">
+    <%- include('layout/header'); -%>
+    <%- include('layout/alerts'); -%>
+    <main class="flex justify-start items-center flex-col gap-8 h-full w-full">
+        <div class="flex justify-center items-center gap-4">
+            <a class="flex justify-center items-center h-full active:scale-90 active:duration-200 active:transition-all duration-200 transition-all hover:duration-200 hover:transition-all hover:bg-primary/10 px-4 rounded-md" href="/settings">
+                <svg class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f2a74a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            </a>
+            <h1 class="text-4xl text-gray-700 font-bold">Jellyseerr</h1>
+        </div>
+        <form class="w-full max-w-[300px] flex flex-col justify-center items-center gap-3" action="/settings/jellyseerr" method="post">
+            <div class="mb-2 w-full flex justify-start flex-col items-start">
+                <label for="username" class="block mb-1 text-sm text-gray-500">Username</label>
+                <input type="text" id="username" name="username" value="<%= jellyseerr.value %>" class="bg-gray-50 border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary block w-full p-2.5" placeholder="admin" required />
+            </div>
+            <div class="mb-2 w-full">
+                <label for="password" class="block mb-1 text-sm text-gray-500">Password</label>
+                <input type="password" id="password" name="password" class="bg-gray-50 border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary block w-full p-2.5" placeholder="y0urP@ssw0rd" required />
+            </div>
+            <div class="mb-2 w-full">
+                <label for="apiKey" class="block mb-1 text-sm text-gray-500">API Key</label>
+                <input type="password" id="apiKey" name="apiKey" value="" class="bg-gray-50 border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary block w-full p-2.5" placeholder="Jellyseerr Api Key" required />
+            </div>
+            <button type="submit" class="primary-action">Save</button>
+        </form>
+    </main>
+</body>
+</html>

@@ -5,6 +5,7 @@ const { Op } = require('sequelize');
 const Attempt = require('../models/Attempt');
 const User = require('../models/User');
 const Blacklist = require('../models/Blacklist');
+const Setting = require('../models/Setting');
 
 exports.loginView = (req, res) => {    
     return res.render('login');
@@ -12,8 +13,14 @@ exports.loginView = (req, res) => {
 
 exports.login = async (req, res) => {
     const ip = req.ip;
-    const maxAttempts = process.env.MAX_LOGIN_ATTEMPTS || 5;
-    const maxAttemptsTimeframe = process.env.MAX_LOGIN_ATTEMPTS_TIMEFRAME || 30;
+    
+    const settings = await Setting.findAll({ 
+        name: { [Op.in]: ['maxLoginAttempts', 'maxLoginAttemptsTimeframe'] } 
+    })
+
+    const maxAttempts = settings.find(s => s.name === 'maxLoginAttempts')?.value || 5;
+    const maxAttemptsTimeframe = settings.find(s => s.name === 'maxLoginAttemptsTimeframe')?.value || 30;
+    
     const username = req.body.username;
     const password = req.body.password; 
 

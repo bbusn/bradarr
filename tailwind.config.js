@@ -13,6 +13,9 @@ module.exports = {
       animation: {
         'alert': 'alert 4s forwards',
       },
+      borderWidth: {
+        '1': '1.5px',
+      },
       keyframes: {
         alert: {
           '0%': { transform: 'translate(0%, -20%)', opacity: 0 },

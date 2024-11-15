@@ -10,6 +10,8 @@ const Setting = sequelize.define('Setting', {
   },
   name: {
     type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
   },
   value: {
     type: DataTypes.STRING,
