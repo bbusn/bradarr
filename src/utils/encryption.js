@@ -3,7 +3,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { createLog } = require('../controllers/logs');
 
-const keyFilePath = path.resolve(__dirname, '../key.json');
+const keyFilePath = path.resolve(__dirname, '../../key.json');
 
 exports.decrypt = (encryptedText) => {
     const { encryptionKey, encryptionIv } = loadEncryptionKeys();
