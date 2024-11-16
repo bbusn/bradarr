@@ -74,6 +74,7 @@ app.use('/auth', authRoutes);
 // app.use('/', movieRoutes);
 
 // app.get('/progress/:id', getProgress);
+
 app.get('*', function(req, res){
     res.status(404).render('error', { 
         error: {
@@ -88,15 +89,17 @@ app.get('*', function(req, res){
 const HOST = process.env.HOST || 'http://localhost';
 const PORT = process.env.PORT || 6789;
 
-const JELLYSEERR_HOST = process.env.JELLYSEERR_HOST || 'http://localhost';
-const JELLYSEERR_PORT = process.env.JELLYSEERR_PORT || 5055;
+const [JELLYSEERR_API_URL, JELLYSEERR_PORT] = await Promise.all([
+    Setting.findOne({ where: { name: 'jellyseerrApiUrl' } }),
+    Setting.findOne({ where: { name: 'jellyseerrPort' } })
+]);
 
 app.listen(PORT, () => {
     console.clear();
     console.log(`\x1b[38;5;208m_____________________    BRADARR SERVER    ______________________\x1b[0m`);
     console.log("\x1b[38;5;208m..................................................................\x1b[0m");
     console.log(`\x1b[90m- Server is running on ${HOST}`);
-    console.log(`\x1b[90m- Jellyseerr is running on ${JELLYSEERR_HOST}:${JELLYSEERR_PORT}`);
+    console.log(`\x1b[90m- Jellyseerr is running on ${JELLYSEERR_API_URL}:${JELLYSEERR_PORT}`);
     console.log("\x1b[38;5;208m..................................................................\x1b[0m");
     console.log(`\x1b[38;5;208m_________________________________________________________________\x1b[0m`);
 

@@ -14,13 +14,11 @@ exports.loginView = (req, res) => {
 exports.login = async (req, res) => {
     const ip = req.ip;
     
-    const settings = await Setting.findAll({ 
-        name: { [Op.in]: ['maxLoginAttempts', 'maxLoginAttemptsTimeframe'] } 
-    })
-
-    const maxAttempts = settings.find(s => s.name === 'maxLoginAttempts')?.value || 5;
-    const maxAttemptsTimeframe = settings.find(s => s.name === 'maxLoginAttemptsTimeframe')?.value || 30;
-    
+    const [maxAttempts, maxAttemptsTimeframe] = await Promise.all([
+        Setting.findOne({ where: { name: 'maxAttempts' } }),
+        Setting.findOne({ where: { name: 'maxAttemptsTimeframe' } })
+    ]);
+ 
     const username = req.body.username;
     const password = req.body.password; 
 

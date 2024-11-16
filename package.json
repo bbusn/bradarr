@@ -1,6 +1,6 @@
 {
   "name": "bradarr",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "main": "server.js",
   "scripts": {
     "dev": "nodemon --env-file=.env server.js",

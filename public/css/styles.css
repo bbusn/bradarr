@@ -814,8 +814,16 @@ video {
   width: 2.25rem;
 }
 
+.w-\[25\%\] {
+  width: 25%;
+}
+
 .w-\[300px\] {
   width: 300px;
+}
+
+.w-\[75\%\] {
+  width: 75%;
 }
 
 .w-\[90vw\] {
@@ -836,6 +844,10 @@ video {
 
 .max-w-\[300px\] {
   max-width: 300px;
+}
+
+.max-w-\[400px\] {
+  max-width: 400px;
 }
 
 .max-w-\[800px\] {
@@ -1082,11 +1094,6 @@ video {
   padding-bottom: 0.25rem;
 }
 
-.py-20 {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-}
-
 .py-24 {
   padding-top: 6rem;
   padding-bottom: 6rem;
@@ -1117,6 +1124,11 @@ video {
 
 .align-middle {
   vertical-align: middle;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
 }
 
 .text-4xl {
