@@ -1,10 +1,20 @@
 const xss = require('xss');
 
-exports.xssMiddleware = (req, res, next) => {
-    for (let key in req.body) {
-        if (req.body.hasOwnProperty(key)) {
-            req.body[key] = xss(req.body[key]);
+function sanitizeObject(obj) {
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            if (typeof obj[key] === 'string') {
+                obj[key] = xss(obj[key]);
+            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                sanitizeObject(obj[key]);
+            }
         }
     }
-    next();
 }
+
+exports.xssMiddleware = (req, res, next) => {
+    if (req.body) sanitizeObject(req.body);
+    if (req.query) sanitizeObject(req.query);
+    if (req.params) sanitizeObject(req.params);
+    next();
+};

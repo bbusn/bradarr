@@ -13,6 +13,15 @@ exports.createLog = async (status, message, source) => {
     }
 }
 
+exports.logsView = async (req, res) => {  
+    const { user } = req.user;
+    const { username } = user;
+    
+    res.render('logs', { user: { 
+        username,
+    }});
+};
+
 exports.getLogs = async (req, res) => {
     try {
         const logs = await Log.findAll({

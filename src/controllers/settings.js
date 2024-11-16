@@ -1,18 +1,30 @@
 const Setting = require('../models/Setting');
+const Secret = require('../models/Secret');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
-const logController = require('./log');
+const { decrypt, encrypt } = require('../utils/encryption');
+const { createLog } = require('./logs');
 const { Op } = require('sequelize');
 
-exports.isSetup = async () => {
+exports.isSetup = async (req) => {
     try {
         const setup = await Setting.findOne({ where: { name: 'setup' } });
+        if (!setup) {
+            req.session.alerts = {
+                error: ['Setup not found, database might be corrupted']
+            };
+            createLog('Error', 'Setup not found, database might be corrupted', 'isSetup');
+            return false;
+        }
         if (setup.value !== '1') {
+            req.session.alerts = {
+                error: ['Setup not fully completed, complete the setup before using the app']
+            };
             return false;
         }
         return true;
     } catch (err) {
-        logController.createLog('Error', 'Error with setup : ' + err, 'isSetup');
+        createLog('Error', 'Error with setup : ' + err, 'isSetup');
         return false;
     }
 }
@@ -22,7 +34,7 @@ exports.settingsView = async (req, res) => {
         let settings = await Setting.findAll({
             where: {
                 name: {
-                    [Op.notIn]: ['jellyseerrApiKey', 'jellyseerrPassword', 'jellyseerrUsername', 'jellyseerrApiUrl', 'jellyseerrPort', 'setup']
+                    [Op.notIn]: ['jellyseerrUsername', 'jellyseerrApiUrl', 'jellyseerrPort', 'setup']
                 }
             }
         });
@@ -32,7 +44,7 @@ exports.settingsView = async (req, res) => {
         }, {});
         return res.render('settings', { settings });
     } catch (err) {
-        logController.createLog('Error', 'Error getting settings : ' + err, 'settingsView');
+        createLog('Error', 'Error getting settings : ' + err, 'settingsView');
         req.session.alerts = {
             error: ['Error getting settings : ' + err]
         };
@@ -52,7 +64,7 @@ exports.modifySettings = async (req, res) => {
         };
         return res.redirect('/settings');
     } catch (err) {
-        logController.createLog('Error', 'Error updating settings : ' + err, 'modifySettings');
+        createLog('Error', 'Error updating settings : ' + err, 'modifySettings');
         req.session.alerts = {
             error: ['Internal server error']
         };
@@ -91,8 +103,9 @@ exports.setup = async (req, res) => {
 
     try {
 
-        const hashedJellyseerrApiKey = await bcrypt.hash(jellyseerrApiKey, 10);
-        const hashedJellyseerrPassword = await bcrypt.hash(jellyseerrPassword, 10);
+        const hashedJellyseerrApiKey = encrypt(jellyseerrApiKey);
+        const hashedJellyseerrPassword = encrypt(jellyseerrPassword);
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
         await User.bulkCreate([
@@ -102,8 +115,6 @@ exports.setup = async (req, res) => {
         let settings = [
             { name: 'setup', value: true },
             { name: 'jellyseerrUsername', value: jellyseerrUsername },
-            { name: 'jellyseerrPassword', value: hashedJellyseerrPassword },
-            { name: 'jellyseerrApiKey', value: hashedJellyseerrApiKey },
             { name: 'jellyseerrApiUrl', value: jellyseerrApiUrl },
             { name: 'jellyseerrPort', value: jellyseerrPort },
             { name: 'maxLoginAttempts', value: 5 },
@@ -111,7 +122,13 @@ exports.setup = async (req, res) => {
             { name: 'maxMonitoredMovies', value: 8 },
         ]
 
+        let secrets = [
+            { name: 'jellyseerrPassword', value: hashedJellyseerrPassword },
+            { name: 'jellyseerrApiKey', value: hashedJellyseerrApiKey }
+        ]
+
         await Setting.bulkCreate(settings, { updateOnDuplicate: ['value'] });
+        await Secret.bulkCreate(secrets, { updateOnDuplicate: ['value'] });
 
         req.session.alerts = {
             success: ['Setup complete now you can login !']
@@ -132,7 +149,7 @@ exports.modifyAdminView = async (req, res) => {
         const admin = await User.findOne();
         return res.render('modify_admin', { admin: admin });
     } catch (err) {
-        logController.createLog('Error', 'Error getting admin : ' + err, 'adminView');
+        createLog('Error', 'Error getting admin : ' + err, 'adminView');
         req.session.alerts = {
             error: ['Error getting admin from database']
         };
@@ -166,7 +183,7 @@ exports.modifyAdmin = async (req, res) => {
         return res.redirect('/settings');
 
     } catch (err) {
-        logController.createLog('Error', 'Error updating admin user : ' + err, 'modifyAdmin');
+        createLog('Error', 'Error updating admin user : ' + err, 'modifyAdmin');
         req.session.alerts = {
             error: ['Internal server error']
         };
@@ -176,29 +193,32 @@ exports.modifyAdmin = async (req, res) => {
 
 exports.modifyJellyseerrView = async (req, res) => {
     try {
-        let jellyseerr = await Setting.findAll({ where: { name: ['jellyseerrUsername', 'jellyseerrPort', 'jellyseerrApiUrl'] } });
+        let jellyseerr = await Setting.findAll({ 
+            where: { 
+            name: ['jellyseerrUsername', 'jellyseerrPort', 'jellyseerrApiUrl'] 
+            } 
+        });
+
         jellyseerr = jellyseerr.reduce((acc, setting) => {
             acc[setting.name] = setting.value;
             return acc;
         }, {});
-
-        console.log(jellyseerr);
         
         return res.render('modify_jellyseerr', { jellyseerr });
     } catch (err) {
-        logController.createLog('Error', 'Error getting jellyseerr : ' + err, 'jellyseerrView');
+        createLog('Error', 'Error getting jellyseerr : ' + err, 'jellyseerrView');
         req.session.alerts = {
-            error: ['Error getting jellyseerr from database']
+            error: ['Error getting jellyseerr from database : ' + err]
         };
         return res.redirect('/settings');
     }
 }
 
 exports.modifyJellyseerr = async (req, res) => {
-    const settings = req.body;
+    let { jellyseerrApiKey, jellyseerrPort, jellyseerrApiUrl, jellyseerrPassword, jellyseerrUsername } = req.body;
 
-    if (settings.apiUrl) {
-        if (!settings.apiUrl.match(/^(http|https):\/\/[^ "]+$/)) {
+    if (jellyseerrApiUrl) {
+        if (!jellyseerrApiUrl.match(/^(http|https):\/\/[^ "]+$/)) {
             req.session.alerts = {
                 error: ['Invalid Jellyseerr API URL']
             };
@@ -207,19 +227,29 @@ exports.modifyJellyseerr = async (req, res) => {
     }
 
     try {
-        if (settings.password) {
-            const hashedPassword = await bcrypt.hash(settings.password, 10);
-            settings.password = hashedPassword;
+        if (jellyseerrPassword) {
+            const hashedPassword = encrypt(jellyseerrPassword);
+            jellyseerrPassword = hashedPassword;
         }
 
-        if (settings.apiKey) {
-            const hashedApiKey = await bcrypt.hash(settings.apiKey, 10);
-            settings.apiKey = hashedApiKey;
+        if (jellyseerrApiKey) {
+            const hashedApiKey = encrypt(jellyseerrApiKey);
+            jellyseerrApiKey = hashedApiKey;
         }
 
-        await Setting.bulkCreate(Object.keys(settings).map(name => ({ name, value: settings[name] })), {
-            updateOnDuplicate: ['value']
-        });
+        const settings = [
+            { name: 'jellyseerrUsername', value: jellyseerrUsername },
+            { name: 'jellyseerrPort', value: jellyseerrPort },
+            { name: 'jellyseerrApiUrl', value: jellyseerrApiUrl }
+        ];
+
+        const secrets = [
+            { name: 'jellyseerrPassword', value: jellyseerrPassword },
+            { name: 'jellyseerrApiKey', value: jellyseerrApiKey }
+        ];
+
+        await Setting.bulkCreate(settings, { updateOnDuplicate: ['value'] });
+        await Secret.bulkCreate(secrets, { updateOnDuplicate: ['value'] });
 
         req.session.alerts = {
             success: ['Jellyseerr settings updated']
@@ -227,7 +257,7 @@ exports.modifyJellyseerr = async (req, res) => {
         return res.redirect('/settings');
 
     } catch (err) {
-        logController.createLog('Error', 'Error updating jellyseerr settings : ' + err, 'modifyJellyseerr');
+        createLog('Error', 'Error updating jellyseerr settings : ' + err, 'modifyJellyseerr');
         req.session.alerts = {
             error: ['Internal server error']
         };

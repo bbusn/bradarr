@@ -1,0 +1,19 @@
+# Block access to environment files
+<FilesMatch "^\.env$">
+    Require all denied
+</FilesMatch>
+
+# Block access to the key.json file
+<FilesMatch "^key\.json$">
+    Require all denied
+</FilesMatch>
+
+# Block access to the database directory
+<Directory "database">
+    Require all denied
+</Directory>
+
+# Block access to the src directory
+<Directory "src">
+    Require all denied
+</Directory>

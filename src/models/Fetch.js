@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../database/database');
 
-const ExternalRequest = sequelize.define('ExternalRequest', {
+const Fetch = sequelize.define('Fetch', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -25,7 +25,7 @@ const ExternalRequest = sequelize.define('ExternalRequest', {
   },
 }, {
   timestamps: true,
-  tableName: 'external-requests',
+  tableName: 'fetchs',
 });
 
-module.exports = ExternalRequest;
+module.exports = Fetch;

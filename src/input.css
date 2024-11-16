@@ -9,6 +9,9 @@
   .primary-action {
     @apply text-center px-6 py-2 rounded-lg font-bold bg-primary/20 text-primary/90 hover:bg-primary/10 hover:duration-200 hover:transition-all duration-200 transition-all active:scale-90 active:duration-200 active:transition-all focus:outline-primary;
   }
+  img {
+    @apply select-none;
+  }
   .secondary-action {
     @apply text-center px-6 py-2 rounded-lg font-bold bg-transparent border-2 border-gray-300 text-gray-600 hover:bg-gray-100 hover:duration-200 hover:transition-all duration-200 transition-all active:scale-90 active:duration-200 active:transition-all focus:outline-primary;
   }

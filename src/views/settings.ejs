@@ -18,7 +18,8 @@
             </a>
         </div>   
 
-        <form class="w-full max-h-[600px] max-w-[400px] flex flex-col justify-center items-center gap-4" action="/settings" method="post">
+        <form class="w-full max-h-[600px] max-w-[300px] flex flex-col justify-center items-center gap-4" action="/settings" method="post">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="flex justify-center w-full items-start gap-1 flex-wrap">
                 <div class="mb-2 w-full">
                     <label for="maxLoginAttempts" class="text-sm text-gray-500">Max login attempts</label>

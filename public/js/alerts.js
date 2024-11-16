@@ -1,0 +1,1 @@
+setTimeout(()=>{document.querySelectorAll('.animate-alert').forEach(alert=>alert.remove());},4000);

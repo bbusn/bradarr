@@ -1,25 +1,23 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../database/database');
 
-const InternalRequest = sequelize.define('InternalRequest', {
+const Secret = sequelize.define('Secret', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  method: {
+  name: {
     type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
   },
-  url: {
-    type: DataTypes.STRING,
-  },
-  ip: {
+  value: {
     type: DataTypes.STRING,
   },
 }, {
-  timestamps: true,
-  tableName: 'internal-requests',
+  tableName: 'secrets',
 });
 
-module.exports = InternalRequest;
+module.exports = Secret;

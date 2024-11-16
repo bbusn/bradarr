@@ -1,0 +1,28 @@
+<%- include('layout/base'); -%>
+
+    <title>bradarr - Logs</title>
+</head>
+<body class="flex justify-start items-center flex-col min-h-screen w-screen gap-4 overflow-x-hidden">
+    <%- include('layout/header'); -%>
+    <%- include('layout/alerts'); -%>
+    <main class="flex justify-start items-center flex-col gap-6 py-32 h-full w-full">
+        <h1 class="text-4xl text-gray-700 font-bold">Logs</h1>  
+        <div class="overflow-x-auto shadow-sm sm:rounded-lg w-[90%]">
+            <table class="w-full text-left text-sm text-gray-500">
+                <thead class="bg-gray-50 text-xs uppercase text-gray-400">
+                    <tr>
+                        <th class="px-6 py-3">ID</th>
+                        <th class="px-6 py-3">Status</th>
+                        <th class="px-6 py-3">Message</th>
+                        <th class="px-6 py-3">Source</th>
+                        <th class="px-6 py-3">Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="logs-table-body" class="bg-white divide-y divide-gray-200">
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="js/logs.js"></script>
+</body>
+</html>
