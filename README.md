@@ -4,7 +4,7 @@
 
 ## Features
 
-- **Download movies** in 5 minutes (if the movie is available in streaming, then it's downloadable)
+- **Download movies** (if the movie is available in streaming, then it's downloadable)
 - Manage **jellyseerr** requests automatically
 - Regular checks to see if app is running with a **vpn**
 
