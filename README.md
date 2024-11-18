@@ -4,15 +4,14 @@
 
 ## Features
 
-- **Download movies** (if the movie is available in streaming, then it's downloadable)
 - Manage **jellyseerr** requests automatically
+- Use plugins to **download movies** (if the movie is available in streaming, then it's downloadable with plugins)
 - Regular checks to see if app is running with a **vpn**
 
 
 ## Screenshots
 
 ![App Screenshot](https://cdn.busn.fr/bradarr/images/885d782a-f3de-40e3-b4a5-46cda188e34f.png)
-*First version of bradarr, new UI is coming*
 
 ## Requirements
 
