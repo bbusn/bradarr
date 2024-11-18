@@ -26,6 +26,8 @@ const { setupMiddleware } = require('./src/middlewares/setup');
 const { authMiddleware } = require('./src/middlewares/auth');
 const { xssMiddleware } = require('./src/middlewares/xss');
 
+const sessionSecret = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
 const app = express();
 
 sequelize.sync({ force: false })
@@ -57,7 +59,7 @@ app.use(xssMiddleware);
 app.use(csrfProtection);
 
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: sessionSecret,
     cookie: { maxAge: 86400000 },
     resave: true,
     saveUninitialized: true

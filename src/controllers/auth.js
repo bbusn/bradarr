@@ -168,14 +168,6 @@ exports.logout = async (req, res) => {
     }
 }
 
-
-
-
-
-
-
-
-
 exports.iniatilizeSecrets = async () => {
     try {
         generateEncryptionKeys();
@@ -202,7 +194,7 @@ exports.iniatilizeSecrets = async () => {
             { name: 'jwtSecret', value: jwtSecret },
             { name: 'jwtRefreshSecret', value: jwtRefreshSecret },
             { name: 'accessTokenName', value: accessTokenName },
-            { name: 'refreshTokenName', value: refreshTokenName }
+            { name: 'refreshTokenName', value: refreshTokenName },
         ]);
 
         createLog('Success', 'Secrets initialized and stored in database', 'initializeSecrets');

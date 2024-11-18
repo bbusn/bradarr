@@ -5,8 +5,8 @@
 ## Features
 
 - Manage **jellyseerr** requests automatically
-- Use plugins to **download movies** (if the movie is available in streaming, then it's downloadable with plugins)
-- Regular checks to see if app is running with a **vpn**
+- Use plugins to **download movies** (You must have the rights to download each movie, bradarr assumes you own the film or bought it respectivly.)
+- **Vpn** support with regular checks
 
 
 ## Screenshots

@@ -11,14 +11,14 @@ exports.isSetup = async (req) => {
         const setup = await Setting.findOne({ where: { name: 'setup' } });
         if (!setup) {
             req.session.alerts = {
-                error: ['Setup not found, database might be corrupted']
+                error: ['Please complete the setup before using the app']
             };
-            createLog('Error', 'Setup not found, database might be corrupted', 'isSetup');
+            createLog('Info', 'Setup not found, please complete the setup before using the app', 'isSetup');
             return false;
         }
         if (setup.value !== '1') {
             req.session.alerts = {
-                error: ['Setup not fully completed, complete the setup before using the app']
+                error: ['Setup is incorrect, please complete the setup before using the app']
             };
             return false;
         }
