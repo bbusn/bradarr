@@ -1,12 +1,14 @@
 {
   "name": "bradarr",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon --env-file=.env dist/server.js",
+    "dev": "nodemon --env-file=.env",
     "start": "node --env-file=.env dist/server.js",
     "watch": "tailwindcss -i src/input.css -o public/css/styles.css --watch",
-    "minify": "tailwindcss -i src/input.css -o public/css/styles.css --minify"
+    "minify": "tailwindcss -i src/input.css -o public/css/styles.css --minify",
+    "compile": "npx tsc",
+    "build": "npm run minify && npm run compile"
   },
   "author": "bbusn",
   "license": "GPL-3.0",
@@ -27,7 +29,10 @@
     "xss": "^1.0.15"
   },
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "nodemon": "^3.1.7",
-    "tailwindcss": "^3.4.14"
+    "tailwindcss": "^3.4.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
   }
 }
