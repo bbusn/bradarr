@@ -4,27 +4,27 @@ const session = require('express-session');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const csrfProtection = csurf({ cookie: true });
-const sequelize = require('./database/database');
+const sequelize = require('./database');
 
 // const { scanM3u8Folder, getProgress } = require('./app/controllers/downloadController');
 // const { scanJellyseerr, getConnectSID } = require('./app/controllers/movieController');
-const { deleteFetchs } = require('./src/controllers/fetchs');
-const { iniatilizeSecrets } = require('./src/controllers/auth');
-const { deleteLogs } = require('./src/controllers/logs');
+const { deleteFetchs } = require('./controllers/fetchs');
+const { iniatilizeSecrets } = require('./controllers/auth');
+const { deleteLogs } = require('./controllers/logs');
 
-const authRoutes = require('./src/routes/auth');
-const logsRoutes = require('./src/routes/logs');
-const fetchsRoutes = require('./src/routes/fetchs');
-const homeRoutes = require('./src/routes/home');
-const settingsRoutes = require('./src/routes/settings');
-const apiRoutes = require('./src/routes/api');
+const authRoutes = require('./routes/auth');
+const logsRoutes = require('./routes/logs');
+const fetchsRoutes = require('./routes/fetchs');
+const homeRoutes = require('./routes/home');
+const settingsRoutes = require('./routes/settings');
+const apiRoutes = require('./routes/api');
 
 // const movieRoutes = require('./app/routes/movieRoutes');
 
-const { localsMiddleware } = require('./src/middlewares/locals');
-const { setupMiddleware } = require('./src/middlewares/setup');
-const { authMiddleware } = require('./src/middlewares/auth');
-const { xssMiddleware } = require('./src/middlewares/xss');
+const { localsMiddleware } = require('./middlewares/locals');
+const { setupMiddleware } = require('./middlewares/setup');
+const { authMiddleware } = require('./middlewares/auth');
+const { xssMiddleware } = require('./middlewares/xss');
 
 const sessionSecret = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
@@ -46,7 +46,7 @@ sequelize.sync({ force: false })
     .catch(err => console.log('Error syncing : ' + err));
 
 app.set('view engine', 'ejs');
-app.set('views', './src/views');
+app.set('views', './views');
 app.set('trust proxy', true);
 app.disable('x-powered-by');
 

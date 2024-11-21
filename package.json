@@ -1,12 +1,12 @@
 {
   "name": "bradarr",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon --env-file=.env server.js",
-    "start": "node --env-file=.env server.js",
+    "dev": "nodemon --env-file=.env dist/server.js",
+    "start": "node --env-file=.env dist/server.js",
     "watch": "tailwindcss -i src/input.css -o public/css/styles.css --watch",
-    "build": "tailwindcss -i src/input.css -o public/css/styles.css --minify"
+    "minify": "tailwindcss -i src/input.css -o public/css/styles.css --minify"
   },
   "author": "bbusn",
   "license": "GPL-3.0",

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../../database/database');
+const sequelize = require('../database');
 
-const Secret = sequelize.define('Secret', {
+const Setting = sequelize.define('Setting', {
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -17,7 +17,7 @@ const Secret = sequelize.define('Secret', {
     type: DataTypes.STRING,
   },
 }, {
-  tableName: 'secrets',
+  tableName: 'settings',
 });
 
-module.exports = Secret;
+module.exports = Setting;
