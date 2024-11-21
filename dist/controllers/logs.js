@@ -1,5 +1,5 @@
 const Log = require('../models/Log');
-const sequelize = require('../../database/database');
+const sequelize = require('../database');
   
 exports.createLog = async (status, message, source) => {
     try {

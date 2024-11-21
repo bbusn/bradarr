@@ -46,7 +46,7 @@ sequelize.sync({ force: false })
     .catch(err => console.log('Error syncing : ' + err));
 
 app.set('view engine', 'ejs');
-app.set('views', './views');
+app.set('views', './dist/views');
 app.set('trust proxy', true);
 app.disable('x-powered-by');
 

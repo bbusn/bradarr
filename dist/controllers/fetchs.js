@@ -1,6 +1,6 @@
 const Fetch = require('../models/Fetch');
 const { createLog } = require('./logs');
-const sequelize = require('../../database/database');
+const sequelize = require('../database');
 
 exports.fetchsView = async (req, res) => {  
     const { user } = req.user;
